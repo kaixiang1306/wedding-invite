@@ -120,10 +120,36 @@
   var introVideo = intro.querySelector('video');
   var heroVideo = document.querySelector('.hero__video');
   var state = 'idle';
+  var safety = null;
 
-  function openPage() {
+  // 網址加 ?debug=1 會在畫面上列出影片事件，方便在手機上查播放問題
+  var debug = /[?&]debug=1/.test(location.search) ? el('pre', 'debug-log') : null;
+  function log(msg) {
+    if (!debug) return;
+    var t = (performance.now() / 1000).toFixed(2);
+    debug.textContent += t + 's ' + msg + '\n';
+  }
+  if (debug) {
+    document.body.appendChild(debug);
+    log(navigator.userAgent);
+    ['loadstart', 'loadedmetadata', 'canplay', 'playing', 'waiting', 'stalled', 'suspend', 'pause', 'ended']
+      .forEach(function (ev) {
+        introVideo.addEventListener(ev, function () {
+          log('intro ' + ev + ' rs=' + introVideo.readyState + ' ns=' + introVideo.networkState +
+              ' t=' + introVideo.currentTime.toFixed(2) + ' d=' + introVideo.duration);
+        });
+      });
+    introVideo.addEventListener('error', function () {
+      var e = introVideo.error;
+      log('intro ERROR code=' + (e && e.code) + ' ' + (e && e.message));
+    });
+  }
+
+  function openPage(reason) {
     if (state === 'fading') return;
+    log('openPage: ' + reason);
     state = 'fading';
+    clearTimeout(safety);
     intro.classList.add('is-fading');
     document.body.classList.remove('is-locked');
     document.body.classList.add('is-open');
@@ -134,20 +160,32 @@
   function start() {
     if (state !== 'idle') return;
     state = 'playing';
+    log('tap');
+    // 開場影片先播，確保它拿到這次點擊的播放許可
+    var p = introVideo.play();
+    if (p && p.then) {
+      p.then(function () { log('play() ok'); }, function (err) {
+        log('play() rejected: ' + (err && err.name) + ' ' + (err && err.message));
+        openPage('play rejected'); // 省電模式、App 內建瀏覽器等擋播放時直接進入
+      });
+    }
     // 音樂要在使用者點擊的當下啟動，手機才允許播放
     if (music) music.play().catch(function () {});
     heroVideo.play().catch(function () {});
-    var p = introVideo.play();
-    if (p && p.catch) p.catch(openPage); // 省電模式等擋播放時直接進入
-    // 保險：影片卡住也不會停在開場
-    setTimeout(openPage, 6000);
+    // 保險：網路慢、影片一直沒開始播，最多等 10 秒
+    safety = setTimeout(function () { openPage('timeout before playing'); }, 10000);
   }
 
+  introVideo.addEventListener('playing', function () {
+    // 真的開始播了，改成「影片長度 + 1 秒」的保險
+    clearTimeout(safety);
+    safety = setTimeout(function () { openPage('timeout while playing'); }, (introVideo.duration || 3) * 1000 + 1000);
+  });
   introVideo.addEventListener('timeupdate', function () {
     if (introVideo.currentTime > 0.05) intro.classList.add('is-playing');
-    if (state === 'playing' && introVideo.duration - introVideo.currentTime <= 0.8) openPage();
+    if (state === 'playing' && introVideo.duration - introVideo.currentTime <= 0.8) openPage('near end');
   });
-  introVideo.addEventListener('ended', openPage);
+  introVideo.addEventListener('ended', function () { openPage('ended'); });
   intro.addEventListener('click', start);
   intro.addEventListener('keydown', function (e) {
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); start(); }
