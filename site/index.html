@@ -22,14 +22,15 @@
   <!-- 開場：點一下播放信封影片，播完淡出 -->
   <div id="intro" class="intro" role="button" aria-label="輕觸開啟喜帖" tabindex="0">
     <img class="intro__poster" src="assets/intro-poster.jpg" alt="">
-    <video class="intro__video" src="assets/intro.mp4" poster="assets/intro-poster.jpg"
+    <!-- ?v= 換影片時改版號，避免手機吃到快取的舊檔 -->
+    <video class="intro__video" src="assets/intro.mp4?v=2" poster="assets/intro-poster.jpg"
            muted playsinline preload="auto"></video>
     <p class="intro__hint">輕觸開啟</p>
   </div>
 
   <div class="page">
     <section class="hero">
-      <video class="hero__video" src="assets/hero.mp4" poster="assets/hero-poster.jpg"
+      <video class="hero__video" src="assets/hero.mp4?v=2" poster="assets/hero-poster.jpg"
              muted loop playsinline autoplay preload="auto"></video>
       <div class="hero__shade"></div>
       <div class="hero__text">

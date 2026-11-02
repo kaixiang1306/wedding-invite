@@ -19,8 +19,9 @@ INTRO_SPEED = 1.25    # 3.04s -> 約 2.4s，接近 demo 的 2.3s
 HERO_XFADE = 0.8      # 循環接縫的交叉淡化秒數
 
 # 網頁通用 H.264：yuv420p、無音軌、moov 前置讓手機邊下載邊播
+# level 鎖 4.0：沒鎖時加速後的不規則時間軸會被判成 level 6.2，iPhone Safari 直接拒播
 ENCODE = ["-c:v", "libx264", "-preset", "slow", "-crf", "22", "-profile:v", "high",
-          "-pix_fmt", "yuv420p", "-movflags", "+faststart", "-an"]
+          "-level:v", "4.0", "-pix_fmt", "yuv420p", "-movflags", "+faststart", "-an"]
 
 
 def run(args):
@@ -38,7 +39,8 @@ def main():
 
     # 開場：整段加速，不裁頭，首幀才會和 poster 完全一致
     intro, hero = os.path.join(OUT, "intro.mp4"), os.path.join(OUT, "hero.mp4")
-    run(["-i", INTRO_SRC, "-vf", f"setpts=PTS/{INTRO_SPEED}", *ENCODE, intro])
+    # 加速後補 fps=30，輸出固定幀率
+    run(["-i", INTRO_SRC, "-vf", f"setpts=PTS/{INTRO_SPEED},fps=30", *ENCODE, intro])
     # poster 取轉檔後的第一格，色彩與影片一致，切換時不會跳
     run(["-i", intro, "-frames:v", "1", "-q:v", "3", os.path.join(OUT, "intro-poster.jpg")])
 
