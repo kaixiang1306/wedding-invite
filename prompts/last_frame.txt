@@ -1,0 +1,7 @@
+Edit this photo. This is the end frame of a short animation that starts from the input image, so everything must stay identical except the flap.
+
+Keep exactly the same: camera position and angle, framing, crop, lighting direction and color, paper color and texture, the lower body of the envelope, and the wax seal's shape, gold color and embossed design, including the two Traditional Chinese characters "黃" and "何" exactly as they are.
+
+Change only this: the triangular top flap of the envelope has started to open, lifted about 25 degrees toward the camera and upward. The wax seal stays firmly attached to the tip of the flap and moves upward with it, now slightly higher in the frame and very slightly larger because it is closer to the camera, with a softer, wider shadow beneath it. Where the flap tip used to rest, reveal a small sliver of the envelope opening and the top edge of a cream invitation card tucked inside, softly shadowed by the lifted flap.
+
+No other changes, no new objects, no text other than the seal characters, no watermark.

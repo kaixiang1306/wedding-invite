@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>楷翔 & 育晴｜婚禮邀請</title>
+  <meta name="description" content="誠摯邀請您出席我們的婚禮">
+  <!-- LINE／FB 分享預覽；上線後把 og:image 換成完整網址 -->
+  <meta property="og:title" content="楷翔 & 育晴｜婚禮邀請">
+  <meta property="og:description" content="誠摯邀請您出席我們的婚禮">
+  <meta property="og:image" content="assets/hero-poster.jpg">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#F7F2EA">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Serif+TC:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="assets/intro-poster.jpg">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="is-locked">
+
+  <!-- 開場：點一下播放信封影片，播完淡出 -->
+  <div id="intro" class="intro" role="button" aria-label="輕觸開啟喜帖" tabindex="0">
+    <img class="intro__poster" src="assets/intro-poster.jpg" alt="">
+    <video class="intro__video" src="assets/intro.mp4" poster="assets/intro-poster.jpg"
+           muted playsinline preload="auto"></video>
+    <p class="intro__hint">輕觸開啟</p>
+  </div>
+
+  <div class="page">
+    <section class="hero">
+      <video class="hero__video" src="assets/hero.mp4" poster="assets/hero-poster.jpg"
+             muted loop playsinline autoplay preload="auto"></video>
+      <div class="hero__shade"></div>
+      <div class="hero__text">
+        <p class="hero__kicker">我們結婚了</p>
+        <h1 class="hero__names">
+          <span data-bind="couple.first"></span>
+          <span class="hero__amp">&amp;</span>
+          <span data-bind="couple.second"></span>
+        </h1>
+        <p class="hero__date" data-bind="dateText"></p>
+      </div>
+      <a class="hero__cta" href="#rsvp">回覆出席</a>
+    </section>
+
+    <section class="section countdown reveal" id="countdown">
+      <h2 class="section__title">倒數</h2>
+      <div class="countdown__grid">
+        <div><b data-cd="d">00</b><span>天</span></div>
+        <div><b data-cd="h">00</b><span>時</span></div>
+        <div><b data-cd="m">00</b><span>分</span></div>
+        <div><b data-cd="s">00</b><span>秒</span></div>
+      </div>
+    </section>
+
+    <section class="section welcome reveal" data-section="welcome">
+      <h2 class="section__title" data-bind="welcome.title"></h2>
+      <p class="welcome__text" data-bind="welcome.text"></p>
+      <p class="welcome__sign">
+        <span data-bind="couple.groom"></span>
+        <span class="amp">&amp;</span>
+        <span data-bind="couple.bride"></span>
+      </p>
+    </section>
+
+    <div class="ornament" aria-hidden="true"></div>
+
+    <section class="section venue reveal" data-section="venue">
+      <h2 class="section__title">婚宴資訊</h2>
+      <p class="venue__date" data-bind="dateText"></p>
+      <p class="venue__time" data-bind="venue.time"></p>
+      <p class="venue__name" data-bind="venue.name"></p>
+      <p class="venue__hall" data-bind="venue.hall"></p>
+      <p class="venue__address" data-bind="venue.address"></p>
+      <div class="venue__map"><iframe title="地圖" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+      <div class="btn-row">
+        <a class="btn" id="mapLink" target="_blank" rel="noopener">開啟地圖導航</a>
+        <a class="btn btn--ghost" id="calLink" target="_blank" rel="noopener">加入行事曆</a>
+      </div>
+    </section>
+
+    <div class="ornament" aria-hidden="true"></div>
+
+    <section class="section schedule reveal" data-section="schedule">
+      <h2 class="section__title">當日流程</h2>
+      <ol class="timeline"></ol>
+    </section>
+
+    <div class="ornament" aria-hidden="true" data-section="dressCode"></div>
+
+    <section class="section dress reveal" data-section="dressCode">
+      <h2 class="section__title">服裝建議</h2>
+      <p class="dress__text" data-bind="dressCode.text"></p>
+      <div class="dress__swatches"></div>
+    </section>
+
+    <div class="ornament" aria-hidden="true" data-section="transport"></div>
+
+    <section class="section transport reveal" data-section="transport">
+      <h2 class="section__title">交通資訊</h2>
+      <div class="transport__list"></div>
+    </section>
+
+    <section class="gallery reveal" aria-label="婚紗照">
+      <div class="gallery__track"></div>
+    </section>
+
+    <section class="section gifts reveal" data-section="gifts">
+      <h2 class="section__title">祝福</h2>
+      <p class="gifts__text" data-bind="gifts.text"></p>
+    </section>
+
+    <section class="section rsvp reveal" id="rsvp">
+      <h2 class="section__title">出席回覆</h2>
+      <p class="rsvp__lead">請於 <span data-bind="rsvp.deadline"></span> 前回覆，方便我們安排座位</p>
+
+      <form class="rsvp__form" novalidate>
+        <label class="field">
+          <span>姓名 *</span>
+          <input name="name" autocomplete="name" required>
+        </label>
+        <label class="field">
+          <span>聯絡電話</span>
+          <input name="phone" type="tel" autocomplete="tel" inputmode="tel">
+        </label>
+
+        <fieldset class="field">
+          <legend>是否出席 *</legend>
+          <div class="choice">
+            <label><input type="radio" name="attending" value="yes" required><span>會出席</span></label>
+            <label><input type="radio" name="attending" value="no"><span>無法出席</span></label>
+          </div>
+        </fieldset>
+
+        <div class="rsvp__more" hidden>
+          <div class="field stepper" data-name="guests" data-min="1" data-max="10" data-value="1">
+            <span>出席人數（含本人）</span>
+            <div class="stepper__ctrl"><button type="button" data-step="-1" aria-label="減少">−</button><output>1</output><button type="button" data-step="1" aria-label="增加">+</button></div>
+          </div>
+          <div class="field stepper" data-name="vegetarian" data-min="0" data-max="10" data-value="0">
+            <span>其中素食人數</span>
+            <div class="stepper__ctrl"><button type="button" data-step="-1" aria-label="減少">−</button><output>0</output><button type="button" data-step="1" aria-label="增加">+</button></div>
+          </div>
+          <div class="field stepper" data-name="childSeats" data-min="0" data-max="5" data-value="0">
+            <span>需要兒童座椅</span>
+            <div class="stepper__ctrl"><button type="button" data-step="-1" aria-label="減少">−</button><output>0</output><button type="button" data-step="1" aria-label="增加">+</button></div>
+          </div>
+        </div>
+
+        <label class="field">
+          <span>想對我們說的話</span>
+          <textarea name="message" rows="3"></textarea>
+        </label>
+
+        <p class="rsvp__error" role="alert" hidden></p>
+        <button class="btn btn--block" type="submit">送出回覆</button>
+      </form>
+
+      <div class="rsvp__done" hidden>
+        <p class="rsvp__thanks">謝謝您的回覆！</p>
+        <p class="rsvp__done-text"></p>
+        <p class="rsvp__test" hidden>（測試模式：尚未連接試算表，這筆資料沒有真的送出）</p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p class="footer__names"><span data-bind="couple.first"></span> <span class="amp">&amp;</span> <span data-bind="couple.second"></span></p>
+      <p class="footer__date" data-bind="dateText"></p>
+    </footer>
+  </div>
+
+  <button class="music" type="button" aria-label="背景音樂" hidden>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V6l10-2v12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="18" r="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="16.5" cy="16" r="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+  </button>
+
+  <script src="js/content.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
