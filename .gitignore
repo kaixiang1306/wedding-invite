@@ -1,0 +1,5 @@
+.venv/
+__pycache__/
+.DS_Store
+# 檢查用的暫存圖
+out/_*
